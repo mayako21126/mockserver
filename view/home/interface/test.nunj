@@ -1,0 +1,811 @@
+{% extends '../../module/main.nunj' %} {% block content %}
+		<link href="http://cdn.atool.org/res/JSONFormatter.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="http://cdn.atool.org/res/dialogbox/jquery.dialogbox.css" />
+
+<style>
+a {
+    font-size: .95em;
+    text-decoration: none;
+    color: #435275
+}
+
+a:hover {
+    color: #f77b6f;
+    text-decoration:underline;
+}
+
+::selection {
+    background: #abd1eb;
+    color: #000;
+}
+::-moz-selection {
+    background: #abd1eb;
+    color: #000;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: "Source Sans Pro", 'Microsoft Yahei', '微软雅黑', sans-serif, Helvetica, 'Hiragino Sans GB', Arial;
+}
+table {
+	font-size: .95em;
+}
+
+.container {
+    width: 1000px;
+    margin: 0 auto
+}
+
+.pull-left {
+    float: left
+}
+
+.pull-right {
+    float: right
+}
+
+.row {
+    min-height: 2em;
+    line-height: 2em;
+    width: 100%
+}
+
+.span {
+    float: left;
+    display: inline;
+    min-height: 1em;
+    /*margin: 0 1% 5px 1%;*/
+    /*white-space:nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;*/
+}
+
+.span:first-child {
+    margin-left: 0
+}
+
+.span:last-child {
+    margin-right: 0
+}
+
+.one {
+    width: 8%
+}
+
+.two {
+    width: 16%
+}
+
+.three {
+    width: 24%
+}
+
+.four {
+    width: 32%
+}
+
+.five {
+    width: 40%
+}
+
+.six {
+    width: 48%
+}
+
+.seven {
+    width: 56%
+}
+
+.eight {
+    width: 64%
+}
+
+.nine {
+    width: 72%
+}
+
+.ten {
+    width: 80%
+}
+
+.eleven {
+    width: 88%
+}
+
+.twelve {
+    width: 100%
+}
+
+.container:after {
+    content: "\0020";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden
+}
+
+.row:before,
+.row:after {
+    content: '\0020';
+    display: block;
+    overflow: hidden;
+    visibility: hidden;
+    width: 0;
+    height: 0
+}
+
+.row:after {
+    clear: both
+}
+
+.row {
+    zoom: 1;
+    margin: 10px 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: 500
+}
+
+h1 {
+    font-size: 2.5em
+}
+
+h2 {
+    font-size: 1.8em
+}
+
+h3 {
+    font-size: 1.4em
+}
+
+h4 {
+    font-size: 1.2em
+}
+
+h5 {
+    font-size: 1em
+}
+
+h6 {
+    font-size: .8em
+}
+
+.table {
+    width: 100%;
+    border-spacing: 0;
+    border-collapse: collapse;
+    text-align: left
+}
+
+.table th,
+.table td {
+    border-bottom: 2px #d1d1d1 solid;
+    padding: 8px 12px;
+    white-space:nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.table td {
+    border-bottom: 1px #d4d4d4 solid
+}
+
+.table.table-striped tbody tr:nth-child(2n+1) {
+    background-color: #f3f3f3
+}
+
+.table.table-bordered {
+    border: 1px #CCC solid
+}
+
+.table.table-bordered td,
+.table.table-bordered th {
+    border: 1px #CCC solid
+}
+
+.button {
+    border: 0;
+    border-radius: 4px;
+    outline: 0;
+    cursor: pointer;
+}
+
+.button.small {
+    padding: 7px 10px;
+    font-size: .95em
+}
+
+.button.large {
+    padding: 15px 25px;
+    font-size: 1.1em
+}
+
+.button.primary {
+    color: #FFF;
+    background: #5f90b0
+}
+
+.button.primary:hover {
+    background: #5589ab
+}
+
+.button.success {
+    color: #FFF;
+    background: #4daf7c
+}
+
+.button.success:hover {
+    background: #48a474
+}
+
+.button.danger {
+    color: #FFF;
+    background: #e6623c
+}
+
+.button.danger:hover {
+    background: #e4572e
+}
+
+.select {
+    /*width: 95%;*/
+    padding: 0 10px;
+    margin: 0 5px;
+    height: 2.3em;
+    line-height: 2.3em;
+    text-align: left;
+    border: 1px solid #CCC;
+    border-radius:5px;
+    font-size: .98em;
+}
+input {
+    text-align: left;
+    border: 1px solid #CCC;
+    border-radius:5px;
+    font-size: .98em;
+}
+.input-text {
+    width: 95%;
+    height: 2.1em;
+    line-height: 2.1em;
+    padding-left:5px;
+}
+
+.input-radio {
+    /*height: 1.5em;
+    line-height: 1.5em;*/
+}
+
+.input-file {
+    width: 95%;
+    height: 2.1em;
+    line-height: 2.1em;
+    position: relative;
+    cursor: pointer;
+    color: #888;
+    background: #fafafa;
+    border: 1px solid #ddd;
+    border-radius: 2px;
+    overflow: hidden;
+    display: inline-block;
+    *display: inline;
+    *zoom: 1
+}
+
+.input-file input {
+    position: absolute;
+    font-size: 100px;
+    right: 0;
+    top: 0;
+    opacity: 0;
+    filter: alpha(opacity=0);
+    cursor: pointer
+}
+
+.input-file:hover {
+    color: #444;
+    background: #eee;
+    border-color: #ccc;
+    text-decoration: none
+}
+
+textarea {
+    width: 100%;
+    height: 200px;
+    resize:vertical;
+    border: 1px solid #CCC;
+    /*border-radius:8px;*/
+    padding:4px;
+    box-shadow: 2px 2px 5px #d3d6da;
+    -moz-box-shadow: 2px 2px 5px #d3d6da;
+}
+.navbar {
+    background: #FFF;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-bottom: 1px #DDD solid;
+    height: 30px;
+    z-index: 9999;
+}
+
+.navbar h4 {
+    color: #191919;
+    font-weight: 200
+}
+
+.navbar li {
+    display: inline-block;
+    padding: .3em 15px 0 0
+}
+
+.navbar li:last-child {
+    padding-right: 0
+}
+
+.navbar.fixed {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0
+}
+
+.alert {
+    padding: 10px;
+    margin: 0;
+    border-radius: 3px
+}
+
+.alert.primary {
+    background: #e8eff3;
+    border: 1px #c5d7e3 solid
+}
+
+.alert.success {
+    background: #daeee4;
+    border: 1px #b6dfca solid
+}
+
+.alert.danger {
+    background: #fdf4f1;
+    border: 1px #f7cfc4 solid
+}
+
+
+@media only screen and (min-width: 768px) and (max-width: 999px) {
+    .container {
+        width: 768px
+    }
+}
+
+/*@media only screen and (min-width: 480px) and (max-width: 767px) {
+    .container {
+        width: 90%;
+    }
+    .container .table {
+        display: table
+    }
+}*/
+
+@media only screen and (max-width: 767px) {
+    .container {
+        width: 98%;
+    }
+    .container .table {
+        width: 100%;
+        display: block;
+        overflow: auto
+    }
+    .xs-three {
+        width: 24%;
+    }
+    .xs-four {
+        width: 32%;
+    }
+    .xs-five {
+        width: 40%;
+    }
+    .xs-six {
+        width: 48%
+    }
+    .xs-seven {
+        width: 56%
+    }
+
+    .xs-eight {
+        width: 64%
+    }
+
+    .xs-nine {
+        width: 72%
+    }
+
+    .xs-ten {
+        width: 80%
+    }
+
+    .xs-eleven {
+        width: 88%
+    }
+
+    .xs-twelve {
+        width: 100%
+    }
+}
+
+
+
+</style>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="item">
+            <h4>
+
+                {{ LN.interface.test.testApi }}
+
+            </h4>
+            <div class="item-main" style="background-color: #f6f6f6;">
+                  <form style="border: thin solid #A4AA04;padding:0 20px;">  
+				<div class='row' id="params_start">
+					<div class="span one xs-three">
+		          		<select id="api_method" class="select">
+							<option value="GET" selected="">GET</option>
+							<option value="POST" >POST</option>
+							<option value="PUT">PUT</option>
+							<option value="PATCH">PATCH</option>
+							<option value="DELETE">DELETE</option>
+							<option value="COPY">COPY</option>
+							<option value="HEAD">HEAD</option>
+							<option value="OPTIONS">OPTIONS</option>
+							<option value="LINK">LINK</option>
+							<option value="UNLINK">UNLINK</option>
+							<option value="PURGE">PURGE</option>
+						</select>
+		          	</div>
+					<div class='span five xs-six strong'>
+						<input type="text" class="input-text" id="http_url_input" title="HTTP接口URL" alt="HTTP接口URL" value="http://127.0.0.1:8033/333/demo1" placeholder ="http://" />
+					</div>
+					<button class='button success small' id="http_test" type="button">发送请求</button>
+				
+					&nbsp;&nbsp;&nbsp;&nbsp;
+					<input type="checkbox" name="body_params" onclick="params_togg();" checked="checked">请求Body参数
+					<input type="checkbox" name="body_headers" onclick="headers_togg();" checked="checked">请求Header
+				</div>
+				<table id="params_table" class="table table-bordered">
+					<thead>
+				        <tr>
+				            <th width="35%">Body参数名称</th>
+				            <th>Body参数值</th>
+				        </tr>
+				    </thead>
+				    <tbody>
+				    	<tr id="params_end">
+				    		<td colspan="2">
+				    			<button class='button primary small' id="add_url_parameter" type="button">添加参数</button>
+				    			<button class='button success small' id="add_raw_url_parameter" type="button">RAW批量添加</button>
+				    		</td>
+				    	</tr>
+				    </tbody>
+				</table>
+				<table id="headers_table" class="table table-bordered">
+					<thead>
+				        <tr>
+				            <th width="35%">Header名称</th>
+				            <th>Header值</th>
+				        </tr>
+				    </thead>
+				    <tbody>
+				    	<tr id="headers_end">
+				    		<td colspan="2">
+				    			<button class='button primary small' id="add_api_headers" type="button">添加Header</button>
+				    		</td>
+				    	</tr>
+				    </tbody>
+				</table>
+				<table id="response_table" class="table table-bordered">
+					<thead>
+				        <tr>
+				            <th width="35%">Response Header</th>
+				            <th>Response Body</th>
+				        </tr>
+				        
+				    </thead>
+				    <tbody>
+				    	<tr>
+				        	<td valign="top" id="response_header" style="display:block;word-break: break-all;word-wrap: break-word;"></td>
+				        	<td valign="top">
+				        		<textarea id="output"></textarea>
+								<div id="output1"></div>
+				        	</td>
+				        </tr>
+				    </tbody>
+				</table>
+			</form>
+
+            </div>
+        </div>
+    </div>
+</div>
+	
+			<script type="text/javascript" src="http://cdn.atool.org/res/jquery.zclip.min.js"></script>
+			<script src="http://cdn.atool.org/res/JSONFormatter.js" type="text/javascript"></script>
+			<script src="http://cdn.atool.org/res/jquery.cookie.min.js" type="text/javascript"></script>
+			<script type="text/javascript" src="http://cdn.atool.org/res/dialogbox/jquery.dialogbox.js"></script>
+	        <script>
+		        function params_togg() {
+					if ($("input[name=body_params]:checked") && $("input[name=body_params]:checked").length > 0) {
+						$("#params_table").show();
+						$.cookie("body_on", "on")
+					} else {
+						$("#params_table").hide();
+						$.cookie("body_on", "")
+					}
+				}
+
+				function headers_togg() {
+					if ($("input[name=body_headers]:checked").length && $("input[name=body_headers]:checked").length > 0) {
+						$("#headers_table").show();
+						$.cookie("header_on", "on")
+					} else {
+						$("#headers_table").hide();
+						$.cookie("header_on", "")
+					}
+				}
+				var result_text = "";
+				
+
+				function add_parameter(cnt, name, value) {
+					if (name == "undefined" || name == null) {
+						name = ""
+					}
+					if (value == "undefined" || value == null) {
+						value = ""
+					}
+					$("#params_end").before('						<tr class="params_p" cnt="' + cnt + '">							<td>								<input class="params_name input-text" type="text" name="p_name_' + cnt + '" title="参数名称" alt="参数名称" value="' + name + '" maxlength="100"/>							</td>							<td>								<input class="params_value input-text" type="text" name="p_value_' + cnt + '" title="参数数值" alt="参数数值" value="' + value + '" maxlength="5000"/>								<button class="button danger tiny" onclick="javascript:del_param(this);" type="button">删除参数</button>							</td>						</tr>					')
+				}
+
+				function add_header(cnt, name, value) {
+					if (name == "undefined" || name == null) {
+						name = ""
+					}
+					if (value == "undefined" || value == null) {
+						value = ""
+					}
+					$("#headers_end").before('						<tr class="headers_p" cnt="' + cnt + '">							<td>								<input class="headers_name input-text" type="text" name="h_name_' + cnt + '" title="header名称" alt="header名称" value="' + name + '" maxlength="100"/>							</td>							<td>								<input class="headers_value input-text" type="text" name="h_value_' + cnt + '" title="header数值" alt="header数值" value="' + value + '" maxlength="5000"/>								<button class="button danger tiny" onclick="javascript:del_param(this);" type="button">删除参数</button>							</td>						</tr>					')
+				}
+
+				function get_all_parameter() {
+					var params = new Array();
+					$(".params_p").each(function() {
+						var cnt = $(this).attr("cnt");
+						var name = $(this).find("input[name=p_name_" + cnt + "]").val();
+						var value = $(this).find("input[name=p_value_" + cnt + "]").val();
+						if (is_empty(name) || is_empty(value)) {
+							return false
+						}
+						params.push({
+							name: name,
+							value: value
+						})
+					});
+					return params
+				}
+
+				function get_all_header() {
+					var headers = new Array();
+					$(".headers_p").each(function() {
+						var cnt = $(this).attr("cnt");
+						var name = $(this).find("input[name=h_name_" + cnt + "]").val();
+						var value = $(this).find("input[name=h_value_" + cnt + "]").val();
+						if (is_empty(name) || is_empty(value)) {
+							return false
+						}
+						headers.push({
+							name: name,
+							value: value
+						})
+					});
+					return headers
+				}
+				var param_cnt = 0;
+				$("#add_url_parameter").click(function() {
+					var input_len = $("#params_table input").size();
+					param_cnt++;
+					add_parameter(param_cnt, "", "")
+				});
+				$('#add_raw_url_parameter').click(function() {
+                   
+		            $('.row').dialogbox({type:"text",title:"批量添加Body参数",message:"输入Raw参数，例如：id=123&sale=yes&deleted=0"}, function($btn, $ans) {
+		                if($btn == "close") {
+		                    return;
+		                }
+		                else if($btn == "ok") {
+		                    var raw = $ans;
+						  	if (raw == null || raw == "") {
+						  		return;
+						    }
+						    var params = str_2_params(raw);
+						    if (params) {
+						    	for (var i = 0; i < params.length; i++) {
+						    		param_cnt++;
+						    		add_parameter(param_cnt, params[i]['name'], params[i]['value']);
+						    	};
+						    }
+		                }
+		            });
+				});
+
+				var header_cnt = 0;
+				$("#add_api_headers").click(function() {
+					var input_len = $("#headers_table input").size();
+					header_cnt++;
+					add_header(header_cnt, "", "")
+				});
+
+				function params_2_str(params) {
+					var str = "";
+					for (var i = 0; i < params.length; i++) {
+						var p = params[i];
+						if (p.name) {
+							str = str + "&" + p.name + "=" + p.value
+						}
+					}
+					if (str.length > 1) {
+						str = str.substring(1)
+					}
+					return str
+				}
+
+				function str_2_params(str) {
+					try {
+						var params = new Array();
+						var ps = str.split("&");
+						var pv = null;
+						for (var i = 0; i < ps.length; i++) {
+							pv = ps[i].split("=");
+							params.push({
+								name: pv[0],
+								value: pv[1],
+								method: "post"
+							})
+						}
+						return params
+					} catch (e) {
+						return false
+					}
+				}
+
+				function load_cookie() {
+					var http_url = $.cookie("http_url");
+					var method = $.cookie("method");
+					var params = $.cookie("params");
+					if (is_empty(params)) {
+						params = false
+					} else {
+						params = str_2_params(params)
+					}
+					var headers = $.cookie("headers");
+					if (is_empty(headers)) {
+						headers = false
+					} else {
+						headers = str_2_params(headers)
+					}
+					var header_on = $.cookie("header_on");
+					var body_on = $.cookie("body_on");
+					if (!header_on) {
+						$("input[name=body_headers]").click()
+					}
+					if (!body_on) {
+						$("input[name=body_params]").click()
+					}
+					if (http_url) {
+						$("#http_url_input").val(http_url)
+					}
+					if (method) {
+						$("#api_method").val(method)
+					}
+					if (params) {
+						for (var i = 0; i < params.length; i++) {
+							param_cnt++;
+							add_parameter(param_cnt, params[i]["name"], params[i]["value"])
+						}
+					}
+					if (headers) {
+						for (var i = 0; i < headers.length; i++) {
+							header_cnt++;
+							add_header(header_cnt, headers[i]["name"], headers[i]["value"])
+						}
+					}
+				}
+				if ($("#login_uid") && $("#login_uid").length > 0) {
+					load_cookie()
+				}
+                function del_param(obj) {
+					$(obj).parent().parent().remove()
+				}
+
+				function is_empty(str) {
+					if (str == null || str == "" || str == "undefined") {
+						return true
+					}
+					return false
+				};
+				$("#http_test").click(function() {
+					var http_url = $("#http_url_input").val();
+					var method = $("#api_method").val();
+					var params = get_all_parameter();
+					var headers = get_all_header();
+					$.cookie("http_url", http_url);
+					$.cookie("method", method);
+					$.cookie("params", params_2_str(params));
+					$.cookie("headers", params_2_str(headers));
+					if (is_empty(http_url)) {
+						alert("接口链接为空，请填写后再请求！");
+						return
+					}
+					if (params === false) {
+						alert("参数填写为空，请填写完整之后再试！");
+						return
+					}
+					if (headers === false) {
+						alert("Header填写为空，请填写完整之后再试！");
+						return
+					}
+					$("#response_header").html("执行中，请等待...");
+					$("#output").val("");
+
+                 $.ajax({url:http_url,data:params,type:method,headers:headers,success:function(data,x,y) {
+					 	$('#output1').empty();
+						if (1 == 1) {
+							result_text = data;
+                           
+							if (typeof(result_text) == "object") {
+								result_text = JSON.stringify(result_text);
+							}
+							var json = null;
+							try {
+								json = JSON.parse(result_text)
+							} catch (e) {
+								json = null
+							}
+							
+							if (json == null) {
+								// $("#output").append("<pre></pre>");
+								$("#output").val(result_text)
+							} else {
+                               // var formattedJson = JSON.stringify(json, null, '\t');
+                                $("#output").val(result_text)
+								JSONFormatter.format(json, {
+									appendTo: "#output1",
+									collapse: true,
+									list_id: "json"
+								})
+							}
+							
+							$("#response_header").html("状态：" +x+'	'+ y.status);
+							$("#response_header").append("<pre></pre>");
+							$("#response_header pre").text(y.getAllResponseHeaders())
+						} else {
+							// $("#output").append("<pre></pre>");
+							$("#output").val(data);
+							$("#response_header").html("<span class='red'>执行失败</span>");
+						}
+					}})
+				});
+
+			</script>
+
+<script src="/static/module/interface.js"></script>
+<script>
+    window.interface.init({
+            LN:{{ LN | dump |safe}}
+        })
+</script>
+{% endblock %}

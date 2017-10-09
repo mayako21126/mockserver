@@ -7,8 +7,13 @@ export default class extends Base {
      * index action
      * @return {Promise} []
      */
+    testAction() {
+        return this.display();
+    }
     async indexAction() {
-        let data = this.get(), res, where = {}, projectData = {project_name: this.LN.interface.controller.projectName};
+        let data = this.get(),
+            res, where = {},
+            projectData = { project_name: this.LN.interface.controller.projectName };
         if (data.keyword) {
             where._complex = {
                 api_name: ["like", "%" + data.keyword + "%"],
@@ -17,7 +22,7 @@ export default class extends Base {
             };
         }
         if (data.project_id) {
-            projectData = await  this.model('project').where({project_id: data.project_id}).find();
+            projectData = await this.model('project').where({ project_id: data.project_id }).find();
             where['mockserver.project_id'] = data.project_id;
             res = await this.model('mockserver').where(where).order('mockid desc')
                 .alias('mockserver')
@@ -41,15 +46,15 @@ export default class extends Base {
         }
         let systemData = await this.model('system').limit(1).find();
         this.assign({
-            title: this.LN.interface.controller.APIList,
-            list: res,
-            project_id: data.project_id,
-            project: projectData,
-            api_name: data.api_name,
-            keyword: data.keyword,
-            systemData: systemData
-        })
-        //auto render template file index_index.html
+                title: this.LN.interface.controller.APIList,
+                list: res,
+                project_id: data.project_id,
+                project: projectData,
+                api_name: data.api_name,
+                keyword: data.keyword,
+                systemData: systemData
+            })
+            //auto render template file index_index.html
         return this.display();
     }
 
@@ -86,7 +91,7 @@ export default class extends Base {
                 // res.project_id=data.project_id
                 this.assign(res)
             } else {
-                return this.setSuccess({message: this.LN.interface.controller.cloneError, url: '/interface/index', btnTxt: this.LN.interface.controller.returnList})
+                return this.setSuccess({ message: this.LN.interface.controller.cloneError, url: '/interface/index', btnTxt: this.LN.interface.controller.returnList })
             }
         } else {
             this.assign({
@@ -105,7 +110,7 @@ export default class extends Base {
         return this.display();
     }
 
-    async  editAction() {
+    async editAction() {
         let data = this.get();
         let project = await this.model('project').select();
         let systemConfig = await this.model('system').find();
@@ -116,7 +121,7 @@ export default class extends Base {
                 if (res[0].project_id) {
                     curr_project = project.filter(item => item.project_id === res[0].project_id);
                     curr_project.length > 0 ? project_prefix = curr_project[0].project_prefix ? curr_project[0].project_prefix :
-                            project_prefix : '';
+                        project_prefix : '';
                 }
                 res[0].project = project;
                 res[0].systemConfig = systemConfig;
@@ -128,7 +133,7 @@ export default class extends Base {
                 });
                 this.assign(res[0])
             } else {
-                return this.setSuccess({message: this.LN.interface.controller.idIsNotExist, url: '/interface/index', btnTxt: this.LN.interface.controller.returnList})
+                return this.setSuccess({ message: this.LN.interface.controller.idIsNotExist, url: '/interface/index', btnTxt: this.LN.interface.controller.returnList })
             }
         } else {
             return this.display('common/tips/sucess.nunj');
@@ -141,10 +146,10 @@ export default class extends Base {
         if (get.mockid) {
             let res = await this.model('mockserver').where('mockid=' + get.mockid).delete();
             if (res) {
-                return this.setSuccess({message: this.LN.interface.controller.deleteSuccess, url: this.http.headers.referer, btnTxt: this.LN.interface.controller.returnList})
+                return this.setSuccess({ message: this.LN.interface.controller.deleteSuccess, url: this.http.headers.referer, btnTxt: this.LN.interface.controller.returnList })
             }
         } else {
-            return this.setSuccess({message: this.LN.interface.controller.idIsNotExist, url: this.http.headers.referer, btnTxt: this.LN.interface.controller.returnList})
+            return this.setSuccess({ message: this.LN.interface.controller.idIsNotExist, url: this.http.headers.referer, btnTxt: this.LN.interface.controller.returnList })
         }
     }
 
@@ -152,7 +157,7 @@ export default class extends Base {
         // console.log(this.post())
         let data = this.post();
         if (think.isEmpty(data)) {
-            return this.setSuccess({message: this.LN.interface.controller.dataIsEmpty, goBack: true})
+            return this.setSuccess({ message: this.LN.interface.controller.dataIsEmpty, goBack: true })
         }
         let errorMsg = []
         if (think.isEmpty(data.project_id)) {
@@ -168,21 +173,22 @@ export default class extends Base {
             errorMsg.push('api_content is empty')
         }
         if (errorMsg.length > 0) {
-            return this.setSuccess({message: errorMsg.join('\r\n'), goBack: true})
+            return this.setSuccess({ message: errorMsg.join('\r\n'), goBack: true })
         }
         let keys = [];
         let reg = pathToRegexp(data.api_url, keys).toString().substring(1);
         reg = encodeURI(reg.substring(0, reg.length - 2))
-        //当路径中存在类似 /:id/:use 等动态参数时才保存生成的正则表达式
+            //当路径中存在类似 /:id/:use 等动态参数时才保存生成的正则表达式
         if (keys.length > 0) {
             data.api_url_regexp = reg
         } else {
             data.api_url_regexp = null
         }
-        let where = {api_url: data.api_url, api_type: data.api_type}, check_reg = false;
+        let where = { api_url: data.api_url, api_type: data.api_type },
+            check_reg = false;
         let urlData = await this.model('mockserver').where(where).find();
         if (think.isEmpty(urlData) && data.api_url_regexp) {
-            where = {api_url_regexp: data.api_url_regexp, api_type: data.api_type};
+            where = { api_url_regexp: data.api_url_regexp, api_type: data.api_type };
             urlData = await this.model('mockserver').where(where).find();
             check_reg = true;
         }
@@ -212,10 +218,10 @@ export default class extends Base {
                         btnTxt: this.LN.interface.controller.returnList,
                         apiUrl: '/' + data.project_id + '/' + data.api_url,
                         apiUrlTxt: this.LN.interface.controller.details,
-                        api_type : data.api_type
+                        api_type: data.api_type
                     })
                 } else {
-                    return this.setSuccess({message: this.LN.interface.controller.actionError, goBack: true})
+                    return this.setSuccess({ message: this.LN.interface.controller.actionError, goBack: true })
                 }
             }
             return this.display('common/tips/sucess.nunj');
@@ -242,11 +248,11 @@ export default class extends Base {
                     btnTxt: this.LN.interface.controller.returnList,
                     apiUrl: '/' + data.project_id + '/' + data.api_url,
                     apiUrlTxt: this.LN.interface.controller.details,
-                    api_type : data.api_type
+                    api_type: data.api_type
 
                 })
             } else {
-                return this.setSuccess({message: this.LN.interface.controller.actionError, goBack: true})
+                return this.setSuccess({ message: this.LN.interface.controller.actionError, goBack: true })
             }
             // await this.model("action").log("add_document", "document", res.id, this.user.uid, this.ip(), this.http.url);
         }
@@ -265,7 +271,7 @@ export default class extends Base {
         let data = await this.model('mockserver').where("mockid=" + mockid + "").find();
         if (!think.isEmpty(data)) {
             var _this = this;
-            let data = await this.model('mockserver').where("mockid=" + mockid + "").update({is_proxy: is_proxy});
+            let data = await this.model('mockserver').where("mockid=" + mockid + "").update({ is_proxy: is_proxy });
             if (data) {
                 this.success(this.LN.interface.controller.editSuccess)
             } else {
@@ -286,7 +292,7 @@ export default class extends Base {
         if (think.isEmpty(mockids)) {
             this.fail(400, this.LN.interface.controller.mockIdIsEmpty)
         }
-        let data = await this.model('mockserver').where(" mockid in (" + mockids + ")").update({is_proxy: is_proxy});
+        let data = await this.model('mockserver').where(" mockid in (" + mockids + ")").update({ is_proxy: is_proxy });
         if (data) {
             this.success(this.LN.interface.controller.editSuccess)
         } else {

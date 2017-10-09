@@ -21,6 +21,7 @@
             <ul class="collapse in" id="nav3">
                 <li class="{{ curr_path|check_route('/interface/index') }}"><a  href="/interface/index">{{ LN.sidebar.apiAdmin }}</a></li>
                 <li class="{{ curr_path|check_route('/interface/add') }}"><a href="/interface/add">{{ LN.sidebar.addApi }}</a></li>
+                <li class="{{ curr_path|check_route('/interface/test') }}"><a href="/interface/test">{{ LN.sidebar.testApi }}</a></li>
             </ul>
         </li>
         <li>
@@ -29,7 +30,7 @@
                 <i class="gm-icon gm-peer-plan"></i>
                 <span>{{ LN.sidebar.systemAdmin }}</span>
             </a>
-            <ul class="collapse in" id="nav3">
+            <ul class="collapse in" id="nav4">
                 <li class="{{ curr_path|check_route('/system/add') }}"><a href="/system/add">{{ LN.sidebar.globalParamsSetting }}</a></li>
             </ul>
         </li>

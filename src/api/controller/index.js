@@ -25,17 +25,18 @@ export default class extends Base {
             this.prefix = this.prefix[0];
             this.project_id = this.prefix.replace(/\//ig, '');
         } else {
-            return this.fail({message: 'Url format is error'});
+            return this.fail({ message: 'Url format is error' });
         }
         this.url = this.http.url.replace(this.prefix, '');
+
         let api_type = this.post('_method') || this.method()
-        //先全路径匹配
+            //先全路径匹配
         let data = await this.model('index').getApiByExactMatch(this.url, api_type, this.project_id)
-        //如果查不到相应接口,则将 URL【?】后去掉后再查询
+            //如果查不到相应接口,则将 URL【?】后去掉后再查询
         if (think.isEmpty(data)) {
             // let firstObj = this.urlParmsTransform(url);
             const tempdata = await this.model('index').getApiByNotExactMatch(this.url, api_type, this.project_id)
-            //当匹配方式为只匹配【?】后面参数时
+                //当匹配方式为只匹配【?】后面参数时
             if (tempdata.length == 1 && tempdata[0].exact_match === 0) {
                 data = tempdata[0];
             } else if (tempdata.length > 1) {
@@ -46,7 +47,7 @@ export default class extends Base {
                     }
                 })
                 if (data.length > 1) {
-                    return this.json({'message': _this.LN.api.multipleInterfaceError, list: data})
+                    return this.json({ 'message': _this.LN.api.multipleInterfaceError, list: data })
                 }
             }
         }
@@ -54,25 +55,28 @@ export default class extends Base {
          * 如果查不到相应接口，则通过 api_url_regexp 匹配查询
          */
         if (think.isEmpty(data)) {
-            // let firstObj = this.urlParmsTransform(url);
+            console.log('3')
+                // let firstObj = this.urlParmsTransform(url);
             const reg_data = await this.model('index').getApiByRESTfulFormat(this.url, api_type, this.project_id)
-            // console.log(reg_data)
+                // console.log(reg_data)
             if (reg_data.length === 1) {
                 // console.log(reg_data)
                 data = reg_data[0]
             } else if (reg_data.length > 1) {
-                return this.json({'message': _this.LN.api.multipleInterfaceError, list: reg_data})
+                return this.json({ 'message': _this.LN.api.multipleInterfaceError, list: reg_data })
             }
         }
         if (!think.isEmpty(data)) {
+
             var item = this.item = data;
+            console.log(item)
             if (item.is_proxy === 0) {
                 let api_header;
                 if (item.api_header) {
                     try {
                         api_header = JSON.parse(item.api_header);
                     } catch (e) {
-                        return this.fail({message: _this.LN.api.headerFormatError});
+                        return this.fail({ message: _this.LN.api.headerFormatError });
                     }
                     for (var header in api_header) {
                         // console.log(header, api_header[header])
@@ -110,12 +114,13 @@ export default class extends Base {
                     if (item.exact_match === 0) {
                         item.api_url = _this.url;
                     }
+                    console.log(item.api_url)
                     return _this.getProxy(item.proxy_prefix, item.api_url, item.api_type)
-                    // console.log(fn)
-                    // this.json({message: '此接口没有提定代理地址请检查并修改2'});
+                        // console.log(fn)
+                        // this.json({message: '此接口没有提定代理地址请检查并修改2'});
                 } else {
                     if (!this.checkProjectProxy(_this.systemConfig.proxy_url)) {
-                        this.fail({message: _this.LN.api.proxyIsEmptyError})
+                        this.fail({ message: _this.LN.api.proxyIsEmptyError })
                     } else {
                         return this.getProxyFromProject(item.api_type, _this.systemConfig.proxy_url)
                     }
@@ -127,12 +132,12 @@ export default class extends Base {
         // return this.display();
     }
 
-    async  getProxyFromProject(methodType, systemProxyUrl) {
+    async getProxyFromProject(methodType, systemProxyUrl) {
         const proxy_url = await this.checkProjectProxy(systemProxyUrl);
         if (proxy_url) {
             return this.getProxy(proxy_url, this.http.url.replace(this.prefix, ''), methodType);
         } else {
-            return this.fail({message: this.LN.api.globalProxyIsEmptyError})
+            return this.fail({ message: this.LN.api.globalProxyIsEmptyError })
         }
     }
 
@@ -142,7 +147,7 @@ export default class extends Base {
      * @returns {*}
      */
     async checkProjectProxy(systemProxyUrl) {
-        let current_project = await this.model('project').where({"project_id": this.project_id}).find()
+        let current_project = await this.model('project').where({ "project_id": this.project_id }).find()
         let proxy_prefix = this.cookie('proxy_prefix') || this.http.headers.proxy_prefix;
         if (!think.isEmpty(current_project)) {
             proxy_prefix = current_project.proxy_url
@@ -153,7 +158,7 @@ export default class extends Base {
         if (systemProxyUrl) {
             return systemProxyUrl
         } else {
-            return this.fail({message: this.LN.api.globalProxyIsEmptyError})
+            return this.fail({ message: this.LN.api.globalProxyIsEmptyError })
         }
     }
 
@@ -165,6 +170,7 @@ export default class extends Base {
      * @returns {*}
      */
     getProxy(httpPrefix, api_url, method) {
+
         let _this = this
         method = method || this.method().toLowerCase();
         let post = this.post();
@@ -177,7 +183,7 @@ export default class extends Base {
             url: url,
             form: post,
             postDataSource: ''
-            // headers:this.http.headers
+                // headers:this.http.headers
         };
         let headersWhiteList = []
         let headersBlacklist = [
@@ -186,6 +192,7 @@ export default class extends Base {
         ]
         let headersObj = {};
         let headers = this.http.headers;
+
         if (this.systemConfig) {
             if (this.systemConfig.headers_proxy_state === 0 || !this.systemConfig.headers_proxy_state) {
                 if (this.systemConfig.headers_black_list) {
@@ -250,8 +257,7 @@ export default class extends Base {
             }
         }).catch(function(err) {
             console.log(err)
-            return _this.fail({proxyUrl: url, errorMessage: _this.LN.api.getProxyDataError, errorContent: err});
+            return _this.fail({ proxyUrl: url, errorMessage: _this.LN.api.getProxyDataError, errorContent: err });
         });
     }
 }
-
