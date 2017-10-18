@@ -55,8 +55,8 @@ export default class extends Base {
          * 如果查不到相应接口，则通过 api_url_regexp 匹配查询
          */
         if (think.isEmpty(data)) {
-            console.log('3')
-                // let firstObj = this.urlParmsTransform(url);
+
+            // let firstObj = this.urlParmsTransform(url);
             const reg_data = await this.model('index').getApiByRESTfulFormat(this.url, api_type, this.project_id)
                 // console.log(reg_data)
             if (reg_data.length === 1) {
@@ -69,7 +69,7 @@ export default class extends Base {
         if (!think.isEmpty(data)) {
 
             var item = this.item = data;
-            console.log(item)
+
             if (item.is_proxy === 0) {
                 let api_header;
                 if (item.api_header) {
@@ -114,7 +114,7 @@ export default class extends Base {
                     if (item.exact_match === 0) {
                         item.api_url = _this.url;
                     }
-                    console.log(item.api_url)
+                    // console.log(item.api_url)
                     return _this.getProxy(item.proxy_prefix, item.api_url, item.api_type)
                         // console.log(fn)
                         // this.json({message: '此接口没有提定代理地址请检查并修改2'});
@@ -179,6 +179,7 @@ export default class extends Base {
         // console.log(this.http.headers)
         let url = httpPrefix + '/' + api_url;
         curHttp.url = url;
+        console.log(post)
         let send = {
             url: url,
             form: post,

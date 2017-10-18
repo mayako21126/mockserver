@@ -7,7 +7,7 @@ export default {
     type: 'mysql',
     adapter: {
         mysql: {
-            host: '192.168.2.204',
+            host: '192.168.2.205',
             port: '3306',
             database: 'mockserver',
             user: 'root',
