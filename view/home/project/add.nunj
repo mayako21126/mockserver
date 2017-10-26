@@ -76,7 +76,7 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label"></label>
                                 <div class="col-sm-6">
-                                    <button class="btn btn-info" type="submit">{{ LN.project.add.save }}</button>
+                                    <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect" type="submit">{{ LN.project.add.save }}</button>
                                 </div>
                             </div>
                         </div>

@@ -20,11 +20,11 @@
                     {#</div>#}
                     {#</div>#}
                     <span style="padding-right: 20px;float: right">
-                            <a class="btn btn-info" href="/project/add.html">{{ LN.project.index.addProject }}</a>
+                            <a class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect" href="/project/add.html">{{ LN.project.index.addProject }}</a>
                                                         </span>
                 </div>
                 <div class="item-main">
-                    <table class="table table-bordered table-hover">
+                    <table class="table table-bordered table-hover mdl-data-table mdl-js-data-table  mdl-shadow--2dp">
                         <thead>
                         <tr>
                             <th>{{ LN.project.index.projectName }}</th>

@@ -11,7 +11,8 @@ export default class extends Base {
      */
     async indexAction() {
         //允许跨域访问接口
-        this.http.header('Access-Control-Allow-Origin', '*');
+
+        this.http.header('is-mock', '1');
         let _this = this;
         this.project_id = "";
         this.prefix = "";
@@ -32,6 +33,8 @@ export default class extends Base {
         let api_type = this.post('_method') || this.method()
             //先全路径匹配
         let data = await this.model('index').getApiByExactMatch(this.url, api_type, this.project_id)
+
+        console.log(data, api_type, this.url)
             //如果查不到相应接口,则将 URL【?】后去掉后再查询
         if (think.isEmpty(data)) {
             // let firstObj = this.urlParmsTransform(url);
@@ -103,6 +106,7 @@ export default class extends Base {
                     this.json(item.api_content);
                 }
             } else {
+
                 if (item.proxy_prefix) {
                     /**
                      * 当模式为只匹配【?】前部分并开启了二次代理时，直接请求用户发送的URL，
@@ -179,7 +183,6 @@ export default class extends Base {
         // console.log(this.http.headers)
         let url = httpPrefix + '/' + api_url;
         curHttp.url = url;
-        console.log(post)
         let send = {
             url: url,
             form: post,
@@ -222,6 +225,7 @@ export default class extends Base {
             send.headers = headersObj;
         }
         send.headers['is-mock-server-proxy'] = 1;
+
         //将请求端的header信息获取,并传递给请求
         //此处将 accept-encodeing 设置空:是因为编码问题,可能会造成乱码,并解析错误
         // send.headers = Object.assign({}, this.http.headers, {'accept-encoding': null})
@@ -257,7 +261,7 @@ export default class extends Base {
                 _this.json(content.body);
             }
         }).catch(function(err) {
-            console.log(err)
+            // console.log(err)
             return _this.fail({ proxyUrl: url, errorMessage: _this.LN.api.getProxyDataError, errorContent: err });
         });
     }

@@ -1,14 +1,14 @@
-<div class="page-title clearfix">
+<div class="page-title clearfix mdl-components__nav docs-text-styling mdl-shadow--4dp">
     <div class="pull-left">
-        <button type="button" class="btn btn-default" id="nav-button"><i class="gm-icon gm-menu"></i></button>
-        <h2>
-            mock-server
-            <small class="lang_switcher">
+        <button type="button" class="mdl-button mdl-js-button mdl-button--icon mdl-navigation__link components" id="nav-button"> <i class="material-icons">more_vert</i></button>
+    </div>
+      <div class="pull-right">
+        <span class="mdl-layout-title mdl-navigation__link components">Mock</span>
+            <small class="lang_switcher" style="display:none">
                 {{ LN.languageSwitcher }}<i class="fa fa-retweet"></i><a href="javascript:;" _href="/system/lang/zh-cn" id="chinese">中文</a>&nbsp;
                 <a href="javascript:;" _href="/system/lang/en" id="english">English</a>
             </small>
-        </h2>
-    </div>
+       </div>
     {#<ul class="pull-right login-state">#}
     {#<li class="common-notice">#}
     {#<a href="#">#}

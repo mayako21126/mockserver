@@ -20,7 +20,7 @@
                                     <i class="fa fa-times-circle form-control-feedback" data-role="button"></i>
                                 </div>
                                 <span class="input-group-btn">
-                        <button class="btn btn-info" type="submit">{{ LN.interface.index.search }}</button>
+                        <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect" type="submit">{{ LN.interface.index.search }}</button>
                         </span>
                             </div>
                         </div>
@@ -41,14 +41,14 @@
                     {#</span>#}
                     {#</div>#}
                     {#</div>#}
-                    <button style="padding-right: 20px;float: right" data-is-proxy="1" id="oer_all_proxy" class="btn btn-info" type="button">{{ LN.interface.index.closeAllProxies }}</button>
+                    <button style="padding-right: 20px;float: right" data-is-proxy="1" id="oer_all_proxy" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect" type="button">{{ LN.interface.index.closeAllProxies }}</button>
                     <span style="padding-right: 20px;float: right">
-                            <a class="btn btn-info" href="/interface/add/{{ project_id }}">{{ LN.interface.index.addInterface }}</a>
+                            <a class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect" href="/interface/add/{{ project_id }}">{{ LN.interface.index.addInterface }}</a>
                                                         </span>
                 </div>
-                <div class="item-main">
-                    <table class="table table-bordered table-hover">
-                        <thead>
+                <div class="item-main" style="    overflow-x: auto;">
+                    <table class="table table-bordered table-hover mdl-data-table mdl-js-data-table  mdl-shadow--2dp">
+                        <thead> 
                         <tr>
                             <th>ID</th>
                             <th>{{ LN.interface.index.projectName }}</th>

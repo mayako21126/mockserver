@@ -2,18 +2,31 @@
 <html class="single-screen">
 <head>
     <meta charset="utf-8"/>
-    <link rel="stylesheet" href="/static/common/bootstrap/scss/bootstrap-system.css">
+    <link rel="stylesheet" href="/static/common/css/bootstrap-www.css">
+     <link rel="stylesheet" href="/static/common/css/material.min.css">
     <link rel="stylesheet" href="/static/common/plugins/validation/css/validationEngine.jquery.css">
     <style>
+    a{
+            text-decoration: none !important;
+    }
         .btns-wrap dt{ padding: 5px 0; }
         .btns-wrap dd{ margin-bottom: 10px; }
         #interfaceTabs [aria-expanded="true"]{
             background: #FFF; color: #333;
         }
+        .page-sidebar .logo {
+  display: block;
+  height: 80px;
+  background-color: #fff;
+  overflow: hidden; }
+  .sidebar-mini .logo:before {
+    background-image: url(/static/common/image/logox.png?v=2.4);
+}
     </style>
     <link rel="stylesheet" href="/static/common/json/s.css">
     <script src="/static/common/bootstrap/js/jquery.min.js"></script>
     <script src="/static/common/bootstrap/js/bootstrap.js"></script>
+    <script src="/static/common/js/material.min.js"></script>
     <script src="/static/common/js/toolbar.js"></script>
     <script src="/static/common/plugins/jQuery.cookie/jQuery.cookie.js"></script>
     {% if LN.LN==='chinese' %}
@@ -24,7 +37,8 @@
     {% endif %}
     <script src="/static/common/plugins/validation/js/jquery.validationEngine.js"></script>
     <script type="text/javascript" src="/static/common/plugins/artdialog/jquery.artDialog.js"></script>
-    <script type="text/javascript" src="/static/common/plugins/gasparesganga-jquery-loading-overlay/src/loadingoverlay.min.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    {# <script type="text/javascript" src="/static/common/plugins/gasparesganga-jquery-loading-overlay/src/loadingoverlay.min.js"></script> #}
     {% block js %}{% endblock %}
     <script type="text/javascript">
         $(function() {
@@ -111,6 +125,7 @@
         {{ title }}    </title>
 </head>
 <body>
+{# <div id="p3" class="mdl-progress mdl-js-progress"></div> #}
 <div class="page-wrapper">
     {% include "./sidebar.nunj" %}
     <div class="page-content-wrapper">
@@ -123,7 +138,7 @@
                         {% block content %}{% endblock %}
                     </div>
                 </div>
-                <div class="page-footer">
+                <div class="page-footer" >
                     <ul class="pull-left">
                         
                     </ul>

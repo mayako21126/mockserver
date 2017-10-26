@@ -7,7 +7,7 @@ export default class extends think.model.base {
      * 获取系统配置信息
      * @returns {Promise.<*>}
      */
-    async  getSystemConfig() {
+    async getSystemConfig() {
         return await this.model('system').limit(1).find();
     }
 
@@ -19,7 +19,7 @@ export default class extends think.model.base {
      * @returns {Promise.<*>}
      */
     async getApiByExactMatch(url, api_type, project_id) {
-        return await this.model('mockserver').where({api_url: url, api_type: api_type, "mockserver.project_id": project_id})
+        return await this.model('mockserver').where({ api_url: url, api_type: api_type, "mockserver.project_id": project_id })
             .alias('mockserver')
             .join([{
                 table: 'project',
@@ -52,13 +52,37 @@ export default class extends think.model.base {
     }
 
     /**
+     * 匹配exec?m=xxx类型的接口
+     * @param url {string} api地址
+     * @param api_type method类型
+     * @param project_id 项目id
+     * @returns {Promise.<*>}
+     */
+    async getApiByExec(url, api_type, project_id) {
+        let tempUrl = url;
+        console.log(url)
+
+        if (tempUrl.split('?').length == 2) {
+            tempUrl = tempUrl.split('?')[0];
+        }
+        return await this.model('mockserver').where("api_url regexp '^" + tempUrl + "\\\\??$' and mockserver.project_id='" + project_id + "' and api_type='" + api_type + "'")
+            .alias('mockserver')
+            .join([{
+                table: 'project',
+                as: 'project',
+                on: ['`mockserver`.`project_id`', '`project`.`project_id`']
+            }])
+            .select();
+    }
+
+    /**
      * 先获取所有RESTful 格式数据，再从中筛选与当前URL匹配的数据
      * @param url {string} api地址
      * @param api_type method类型
      * @param project_id 项目id
      */
     async getApiByRESTfulFormat(url, api_type, project_id) {
-        let regList = await this.model('mockserver').where({"mockserver.project_id": project_id, api_type: api_type, api_url_regexp: ['!=', null]})
+        let regList = await this.model('mockserver').where({ "mockserver.project_id": project_id, api_type: api_type, api_url_regexp: ['!=', null] })
             .alias('mockserver')
             .join([{
                 table: 'project',

@@ -1,4 +1,4 @@
-<div class="page-sidebar">
+<div class="page-sidebar mdl-components__nav docs-text-styling mdl-shadow--4dp">
     <a href="index.html" class="logo"></a>
     <ul class="nav" id="nav">
         <li>
@@ -30,7 +30,7 @@
                 <i class="gm-icon gm-peer-plan"></i>
                 <span>{{ LN.sidebar.systemAdmin }}</span>
             </a>
-            <ul class="collapse in" id="nav4">
+            <ul class="collapse in " id="nav4">
                 <li class="{{ curr_path|check_route('/system/add') }}"><a href="/system/add">{{ LN.sidebar.globalParamsSetting }}</a></li>
             </ul>
         </li>
