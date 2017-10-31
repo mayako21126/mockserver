@@ -24,6 +24,7 @@ export default [
     [/^interface\/delete/, '/home/interface/delete'],
     [/^interface\/edit/, '/home/interface/edit'],
     [/^interface\/setproxy/, '/home/interface/setproxy'],
+    [/^interface\/setmem/, '/home/interface/setmem'],
     [/^interface\/setproxies/, '/home/interface/setproxies'],
     [/^api\//, 'api/index'],
     [/^[\w_\d]+\//, 'api/index'],

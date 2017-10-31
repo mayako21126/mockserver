@@ -3,6 +3,13 @@ import request from "request";
 import Base from '../../common/controller/common';
 import Mock from 'mockjs';
 import _ from 'lodash';
+
+function isEmptyObject(e) {
+    var t;
+    for (t in e)
+        return !1;
+    return !0
+}
 // import index from '../model/index'
 export default class extends Base {
     /**
@@ -69,6 +76,24 @@ export default class extends Base {
                 return this.json({ 'message': _this.LN.api.multipleInterfaceError, list: reg_data })
             }
         }
+        /**
+         * 如果查不到相应接口，则通过 getApiByExec 匹配查询
+         */
+        if (think.isEmpty(data)) {
+
+            console.log(this.url);
+            if (this.url.indexOf('%3') > -1) {
+                this.url = this.url.replace(this.url.substring(this.url.indexOf('%3F'), this.url.indexOf('?')), '')
+                    // let firstObj = this.urlParmsTransform(url);
+                let rdata = await this.model('index').getApiByExec(this.url, api_type, this.project_id)
+                    // console.log(reg_data)
+                if (!isEmptyObject(rdata)) {
+                    data = rdata;
+                }
+            }
+
+        }
+
         if (!think.isEmpty(data)) {
 
             var item = this.item = data;

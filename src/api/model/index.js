@@ -60,19 +60,18 @@ export default class extends think.model.base {
      */
     async getApiByExec(url, api_type, project_id) {
         let tempUrl = url;
-        console.log(url)
 
-        if (tempUrl.split('?').length == 2) {
-            tempUrl = tempUrl.split('?')[0];
+        if (tempUrl.split('?').length > 2) {
+            tempUrl = tempUrl.split('?')[1];
         }
-        return await this.model('mockserver').where("api_url regexp '^" + tempUrl + "\\\\??$' and mockserver.project_id='" + project_id + "' and api_type='" + api_type + "'")
+        return await this.model('mockserver').where({ api_url: tempUrl, api_type: api_type, "mockserver.project_id": project_id })
             .alias('mockserver')
             .join([{
                 table: 'project',
                 as: 'project',
                 on: ['`mockserver`.`project_id`', '`project`.`project_id`']
             }])
-            .select();
+            .find();
     }
 
     /**

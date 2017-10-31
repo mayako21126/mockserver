@@ -29,17 +29,17 @@ export default class extends Base {
      * 编辑时显示数据
      * @returns {*}
      */
-    async  editAction() {
+    async editAction() {
         let data = this.get();
         if (data.project_id) {
             let res = await this.model('project').getProjectById(data.project_id);
             if (!think.isEmpty(res)) {
                 this.assign(res)
             } else {
-                return this.setSuccess({message: this.LN.project.controller.projectIsNotExist, url: '/', btnTxt: this.LN.project.controller.returnProjectList})
+                return this.setSuccess({ message: this.LN.project.controller.projectIsNotExist, url: '/', btnTxt: this.LN.project.controller.returnProjectList })
             }
         } else {
-            return this.setSuccess({message: this.LN.project.controller.projectIsNotExist, url: '/', btnTxt: this.LN.project.controller.returnProjectList})
+            return this.setSuccess({ message: this.LN.project.controller.projectIsNotExist, url: '/', btnTxt: this.LN.project.controller.returnProjectList })
         }
         return this.display('add.nunj')
     }
@@ -49,10 +49,10 @@ export default class extends Base {
         if (get.project_id) {
             let res = await this.model('project').deleteProjectById(get.project_id);
             if (res) {
-                return this.setSuccess({message: this.LN.project.controller.deleteSuccess, url: '/', btnTxt: this.LN.project.controller.returnProjectList})
+                return this.setSuccess({ message: this.LN.project.controller.deleteSuccess, url: '/', btnTxt: this.LN.project.controller.returnProjectList })
             }
         } else {
-            return this.setSuccess({message: this.LN.project.controller.idIsNotExist, url: '/', btnTxt: this.LN.project.controller.returnProjectList})
+            return this.setSuccess({ message: this.LN.project.controller.idIsNotExist, url: '/', btnTxt: this.LN.project.controller.returnProjectList })
         }
     }
 
@@ -65,10 +65,10 @@ export default class extends Base {
         // console.log(this.post())
         let data = this.post();
         if (think.isEmpty(data)) {
-            return this.setSuccess({message: this.LN.project.controller.dataIsEmpty, url: '/', btnTxt: this.LN.project.controller.returnProjectList})
+            return this.setSuccess({ message: this.LN.project.controller.dataIsEmpty, url: '/', btnTxt: this.LN.project.controller.returnProjectList })
         }
         var projectData = await this.model('project').getProjectByName(data.project_name)
-        //修改
+            //修改
         if (data.project_id) {
             if (!think.isEmpty(projectData) && data.project_id !== projectData.project_id.toString()) {
                 return this.setSuccess({
@@ -79,7 +79,7 @@ export default class extends Base {
                     apiUrlTxt: this.LN.project.controller.returnProjectList
                 })
             }
-            let res = await this.model('project').where({project_id: data.project_id}).select();
+            let res = await this.model('project').where({ project_id: data.project_id }).select();
             //行为记录˙
             if (res) {
                 await this.model('project').update(data);
@@ -99,7 +99,7 @@ export default class extends Base {
                     apiUrlTxt: this.LN.project.controller.returnProjectList
                 })
             }
-        } else {//添加
+        } else { //添加
             if (!think.isEmpty(projectData)) {
                 return this.setSuccess({
                     message: this.LN.project.controller.projectNameIsExist,

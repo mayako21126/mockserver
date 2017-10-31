@@ -65,6 +65,7 @@ module.exports = {
                 projectName: 'Project Name',
                 interfaceName: 'API Name',
                 methodType: 'Method Type',
+                setMem: 'publish',
                 interfaceUrl: 'API URL',
                 againProxy: 'Proxy Switch',
                 actions: 'Actions',

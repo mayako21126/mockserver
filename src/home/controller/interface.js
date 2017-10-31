@@ -2,6 +2,7 @@
 import Base from '../../common/controller/common';
 import pathToRegexp from 'path-to-regexp'
 let project_prefix = '/';
+import memcache from 'memcache'
 export default class extends Base {
     /**
      * index action
@@ -256,6 +257,25 @@ export default class extends Base {
             }
             // await this.model("action").log("add_document", "document", res.id, this.user.uid, this.ip(), this.http.url);
         }
+        // return this.display();
+    }
+
+    async setmemAction() {
+        let memsettings = { port: 11211, host: '192.168.2.205' }
+        var client = new memcache.Client(memsettings.port, memsettings.host);
+        let x = await this.model('project').select();
+        client.connect();
+        client.on('connect', function() {
+            // no arguments - we've connected
+            console.log("success")
+        });
+        for (let xx of x) {
+            client.set(xx.project_name, xx.project_id);
+        }
+        // set and get a Key
+        client.close();
+        this.success('success');
+
         // return this.display();
     }
 

@@ -42,6 +42,7 @@
                     {#</div>#}
                     {#</div>#}
                     <button style="padding-right: 20px;float: right" data-is-proxy="1" id="oer_all_proxy" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect" type="button">{{ LN.interface.index.closeAllProxies }}</button>
+                     <button style="margin-right: 20px;float: right"  id="setmem" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect" type="button">{{ LN.interface.index.setMem }}</button>
                     <span style="padding-right: 20px;float: right">
                             <a class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect" href="/interface/add/{{ project_id }}">{{ LN.interface.index.addInterface }}</a>
                                                         </span>

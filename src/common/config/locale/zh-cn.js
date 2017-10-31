@@ -65,7 +65,7 @@ module.exports = {
                 projectName: '项目名称',
                 interfaceName: '接口名称',
                 methodType: '请求类型',
-
+                setMem: '发布',
                 interfaceUrl: '接口地址',
                 againProxy: '二次代理',
                 actions: '操作',
