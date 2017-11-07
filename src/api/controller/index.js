@@ -20,6 +20,9 @@ export default class extends Base {
         //允许跨域访问接口
 
         this.http.header('is-mock', '1');
+        this.http.header('Access-Control-Allow-Origin', '*');
+        this.http.header('Access-Control-Allow-Headers', 'X-Requested-With');
+        this.http.header('Access-Control-Allow-Methods', 'GET,POST,OPTIONS');
         let _this = this;
         this.project_id = "";
         this.prefix = "";
@@ -82,9 +85,10 @@ export default class extends Base {
         if (think.isEmpty(data)) {
 
             console.log(this.url);
-            if (this.url.indexOf('%3') > -1) {
+            if (this.url.indexOf('%3F') > -1) {
                 this.url = this.url.replace(this.url.substring(this.url.indexOf('%3F'), this.url.indexOf('?')), '')
                     // let firstObj = this.urlParmsTransform(url);
+
                 let rdata = await this.model('index').getApiByExec(this.url, api_type, this.project_id)
                     // console.log(reg_data)
                 if (!isEmptyObject(rdata)) {
@@ -140,6 +144,7 @@ export default class extends Base {
                      * 用户请求URL为:/a/b?a=2
                      * 此时开启了二次代理，直接请求用户请求的URL，才可获取到用户动态参数的的数据
                      */
+
                     if (item.exact_match === 0) {
                         item.api_url = _this.url;
                     }
@@ -148,6 +153,7 @@ export default class extends Base {
                         // console.log(fn)
                         // this.json({message: '此接口没有提定代理地址请检查并修改2'});
                 } else {
+
                     if (!this.checkProjectProxy(_this.systemConfig.proxy_url)) {
                         this.fail({ message: _this.LN.api.proxyIsEmptyError })
                     } else {
@@ -201,19 +207,27 @@ export default class extends Base {
     getProxy(httpPrefix, api_url, method) {
 
         let _this = this
+
         method = method || this.method().toLowerCase();
         let post = this.post();
+
+        // post = JSON.stringify(post).replace("'{", "{").replace("}'", "}")
+        // console.log(post)
+        // post.reqJson = JSON.stringify(post.reqJson)
         let fn = think.promisify(request[method]);
         const curHttp = this.http;
         // console.log(this.http.headers)
+        post = JSON.stringify(post)
         let url = httpPrefix + '/' + api_url;
         curHttp.url = url;
         let send = {
             url: url,
-            form: post,
+            form: JSON.parse(post),
             postDataSource: ''
                 // headers:this.http.headers
         };
+        console.log(send)
+
         let headersWhiteList = []
         let headersBlacklist = [
             'host',

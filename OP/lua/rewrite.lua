@@ -1,10 +1,10 @@
 
 local cjson = require "cjson"
 local mysql = require "mysql"
-local req = require "req"
+
 local memcached = require "resty.memcached"
 
-local args = req.getArgs()
+
 
 local name = ngx.var.ohost
 
@@ -19,30 +19,33 @@ end
 
 local memc, err = memcached:new()
 if not memc then
-    ngx.say("failed to instantiate memc: ", err)
-    ngx.exit(200)
+    -- ngx.say("failed to instantiate memc: ", err)
+  
     return
 end
 memc:set_timeout(1000) -- 1 sec
 local ok, err = memc:connect("127.0.0.1",11211)
 if not ok then
-ngx.say("failed to connect: ", err)
-ngx.exit(200)
+-- ngx.say("failed to connect: ", err)
+
 return
 end   
 local res, flags, err = memc:get(name)
 if err then
-ngx.say("failed to get dog: ", err)
-ngx.exit(403)
+-- ngx.say("failed to get dog: ", err)
+
 return 
 end
 if res then
-ngx.say(res)
-ngx.exit(200)
+    local newUri = "/" .. res ..x 
+    -- ngx.say(newUri)
+    ngx.req.set_uri(newUri, false)
+
+
 return
 else
-ngx.say("The Value is empty.")
-ngx.exit(200)
+-- ngx.say("The Value is empty.")
+
 return
 end
 memc:close()

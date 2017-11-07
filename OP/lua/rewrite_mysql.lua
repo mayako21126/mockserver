@@ -18,18 +18,18 @@ end
 
 name = ngx.quote_sql_str(name) -- SQL 转义，将 ' 转成 \', 防SQL注入，并且转义后的变量包含了引号，所以可以直接当成条件值使用
 
--- local db = mysql:new()
+local db = mysql:new()
 
--- local sql = "select project_id from mock_project where project_name = " .. name
+local sql = "select project_id from mock_project where project_name = " .. name
 
--- local res, err, errno, sqlstate = db:query(sql)
--- db:close()
--- if not res then
---     -- ngx.say(err)
---     return {}
--- end
+local res, err, errno, sqlstate = db:query(sql)
+db:close()
+if not res then
+    -- ngx.say(err)
+    return {}
+end
 
--- local newUri = "/" .. res[1].project_id ..x 
+local newUri = "/" .. res[1].project_id ..x 
 
 -- local newUri = res
 
